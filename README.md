@@ -1,23 +1,18 @@
-# Rex: A JAX-Powered Framework for Sim-to-Real Robotics
+# JAX Robotics Sim
 
-Rex is a framework for developing and training robotic control policies, with a focus on bridging the simulation-to-reality gap. It leverages JAX for high-performance, differentiable simulation and learning, enabling rapid experimentation and robust policy transfer to physical hardware.
+A JAX-powered framework for sim-to-real robotics, enabling fast, differentiable simulations for training and deploying robotic control policies. This project explores the intersection of modern machine learning and robotics, providing a foundation for research and experimentation.
 
 ## Key Features
-*   Differentiable physics simulation built on JAX for efficient gradient-based optimization.
-*   Tools and utilities designed to address sim-to-real challenges like domain randomization.
-*   Modular design for easy integration of new tasks, robot models, and learning algorithms.
-*   Pre-built examples for common robotic benchmarking and training pipelines.
+*   Differentiable physics simulation built on JAX for gradient-based optimization.
+*   Modular robot and environment definitions for easy prototyping.
+*   Tools for policy training and sim-to-real transfer learning.
 
 ## Tech Stack
-*   **JAX**
-*   **Brax** (Physics Engine)
-*   **Python**
+*   JAX
+*   Brax (for core physics)
+*   Python
 
 ## Getting Started
-```bash
-git clone https://github.com/zoreanuj/rex.git
-cd rex
-pip install -e .
-# Run an example training script
-python examples/train_brax_env.py
-```
+1.  Clone the repository: `git clone https://github.com/zoreanuj/jax-robotics-sim.git`
+2.  Install dependencies: `pip install -r requirements.txt`
+3.  Run an example: `python examples/run_sim.py`
