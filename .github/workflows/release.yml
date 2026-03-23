@@ -1,0 +1,26 @@
+# This workflow is based on the workflow from https://github.com/patrick-kidger/equinox
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release
+        uses: patrick-kidger/action_update_python_project@v6
+        with:
+            python-version: "3.11"
+            test-script: |
+                cp -r ${{ github.workspace }}/tests ./tests
+                cp ${{ github.workspace }}/pyproject.toml ./pyproject.toml
+                echo "Listing files after copying:"
+                ls -R ./rex
+                python -m pip install pytest
+                pytest ./rex/test
+            pypi-token: ${{ secrets.pypi_token }}
+            github-user: bheijden
+            github-token: ${{ github.token }}

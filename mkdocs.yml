@@ -1,0 +1,155 @@
+theme:
+    name: material
+    features:
+        - navigation.sections  # Sections are included in the navigation on the left.
+        - toc.integrate  # Table of contents is integrated on the left; does not appear separately on the right.
+        - header.autohide  # header disappears as you scroll
+    palette:
+        # Light mode / dark mode
+        # We deliberately don't automatically use `media` to check a user's preferences. We default to light mode as
+        # (a) it looks more professional, and (b) is more obvious about the fact that it offers a (dark mode) toggle.
+        - scheme: default
+          primary: white
+          accent: amber
+          toggle:
+             icon: material/weather-night
+             name: Switch to dark mode
+        - scheme: slate
+          primary: black
+          accent: amber
+          toggle:
+             icon: material/weather-sunny
+             name: Switch to light mode
+    icon:
+        admonition:
+            note: octicons/tag-16
+            abstract: octicons/checklist-16
+            info: octicons/info-16
+            tip: octicons/squirrel-16
+            success: octicons/check-16
+            question: octicons/question-16
+            warning: octicons/alert-16
+            failure: octicons/x-circle-16
+            danger: octicons/zap-16
+            bug: octicons/bug-16
+            example: octicons/beaker-16
+            quote: octicons/quote-16
+        repo: fontawesome/brands/github  # GitHub logo in top right
+        logo: "material/google-downasaur"  # Rex logo in top left
+    favicon: "_static/favicon_trex.ico"
+    custom_dir: "docs/_overrides"  # Overriding part of the HTML
+
+    # These additions are my own custom ones, having overridden a partial.
+#    twitter_name: "@SomeTwitterHandle"
+#    twitter_url: "https://twitter.com/SomeTwitterHandle"
+
+site_name: Rex
+site_description: The documentation for the Rex software library.
+site_author: Bas van der Heijden
+site_url: https://github.com/bheijden/rex
+
+repo_url: https://github.com/bheijden/rex
+repo_name: bheijden/rex
+edit_uri: ""  # No edit button, as some of our pages are in /docs and some in /examples via symlink, so it's impossible for them all to be accurate
+
+# For web-server deployment, maybe remove this line? It will create page_name/index.html structure instead of page_name.html.
+# Added for local loading. See https://stackoverflow.com/questions/60354731/why-are-my-local-html-links-going-to-parent-folder-instead-of-the-html
+use_directory_urls: false
+
+strict: false  # Don't allow warnings during the build process
+
+extra_javascript:
+    # The below two make MathJax work, see https://squidfunk.github.io/mkdocs-material/reference/mathjax/
+    - _static/mathjax.js
+    - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+    - _static/custom_css.css
+
+markdown_extensions:
+    - pymdownx.arithmatex:  # Render LaTeX via MathJax
+        generic: true
+    - pymdownx.superfences  # Seems to enable syntax highlighting when used with the Material theme.
+    - pymdownx.details  # Allowing hidden expandable regions denoted by ???
+    - pymdownx.snippets:  # Include one Markdown file into another
+        base_path: docs
+    - admonition
+    - toc:
+        permalink: "¤"  # Adds a clickable permalink to each section heading
+        toc_depth: 4
+
+#
+exclude_docs: |
+    /_overrides/*
+    !.htaccess  # Don't exclude the .htaccess file, although all other '.*' are excluded
+
+watch:
+    - rex
+
+plugins:
+    - search  # default search plugin; needs manually re-enabling when using any other plugins
+    - autorefs  # Cross-links to headings
+    - mknotebooks  # Jupyter notebooks
+    - mkdocstrings:
+        handlers:
+            python:
+                setup_commands: # TODO: Seems to be ignored/not executed...
+#                    - import pytkdocs_tweaks
+#                    - pytkdocs_tweaks.main()
+                    - import jaxtyping
+                    - jaxtyping.set_array_name_format("array")
+                    - import jax
+                    - jax.ShapeDtypeStruct.__module__ = "jax"
+                    - jax.core.ClosedJaxpr.__module__ = "jax.core"
+                options:
+                    docstring_style: google
+                    docstring_section_style: list
+                    show_root_heading: true  # actually display anything at all...
+                    show_root_full_path: true  # display "rex.asdf" not just "asdf"
+                    show_if_no_docstring: true
+                    show_signature_annotations: true
+                    show_source: false  # don't include source code
+                    members_order: source  # order methods according to their order of definition in the source code, not alphabetical order
+                    heading_level: 4
+                    inherited_members: true  # Allow looking up inherited methods
+                    group_by_category: true
+                    filters:
+                        - "!^_"  # Don't include private methods
+
+nav:
+    - 'index.md'
+#    - 'all-of-rex.md'
+    - Examples:
+        - Introductory:
+            - How to define nodes: 'examples/node_definitions.ipynb'
+            - Graphs and environments: 'examples/graph_and_environment_creation.ipynb'
+        - Advanced:
+              - Sim2real with a pendulum: 'examples/sim2real.ipynb'
+    - Usage:
+#        - 'plotting.md'  # open_colors, utils.plot_...
+#        - 'logging.md'   # utils.log_..., etc..
+        - 'api/base.md'
+        - 'api/node.md'
+        - Graphs:
+            - 'api/asynchronous.md'
+            - 'api/compiled.md'
+            - 'api/artificial.md'
+            - 'api/record.md'
+        - Delays:
+            - 'api/delays.md'
+            - 'api/gmm_estimator.md'
+        - System identification:
+            - 'api/evosax.md'
+            - 'api/cem.md'
+            - 'api/transforms.md'
+        - Reinforcement learning:
+            - 'api/environment.md'
+            - 'api/ppo.md'
+#            - 'api/actor_critic.md'
+#    - Advanced API:
+#        - 'api/debug.md'
+        - Misc:
+            - 'citation.md'
+#        - 'faq.md'
+#        - 'tricks.md'
+
